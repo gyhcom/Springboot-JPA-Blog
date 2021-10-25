@@ -8,13 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
-import com.cos.blog.reposity.UserReposity;
+import com.cos.blog.reposity.UserRepository;
 
 @Service
 public class UserService {
 
 	@Autowired
-	private UserReposity userReposity;
+	private UserRepository userRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -25,7 +25,7 @@ public class UserService {
 		String encPassword = encoder.encode(rawPassword);
 		user.setPassword(encPassword);
 		user.setRole(RoleType.User);
-		userReposity.save(user);
+		userRepository.save(user);
 	}
 	/*
 	 * @Transactional(readOnly = true) //select 할때 트랜잭션 시,서비스 종료시에 트랜잭션 종료(정합성)

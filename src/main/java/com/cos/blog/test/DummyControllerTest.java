@@ -21,19 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
-import com.cos.blog.reposity.UserReposity;
+import com.cos.blog.reposity.UserRepository;
 
 @RestController
 public class DummyControllerTest {
 	
 	
 	@Autowired //의존성 주입
-	private UserReposity userReposity;
+	private UserRepository userRepository;
 	
 	@DeleteMapping("/dummy/user/{id}")
 	public String delete(@PathVariable int id) {
 		try {
-			userReposity.deleteById(id);	
+			userRepository.deleteById(id);	
 		} catch (EmptyResultDataAccessException e) {
 			return "해당 데이터는 없습니다.";
 		}
@@ -51,7 +51,7 @@ public class DummyControllerTest {
 		System.out.println("password :" + requestUser.getPassword());
 		System.out.println("email :" + requestUser.getEmail());
 		
-		User user = userReposity.findById(id).orElseThrow(()->{
+		User user = userRepository.findById(id).orElseThrow(()->{
 			return new IllegalArgumentException("수정에 실패하였습니다.");
 		});
 
@@ -68,12 +68,12 @@ public class DummyControllerTest {
 	//localhost:8080/dummy/user/3
 	@GetMapping("/dummy/users")
 	public List<User> list(){
-		return userReposity.findAll();
+		return userRepository.findAll();
 	}
 	
 	@GetMapping("/dummy/user")
 	public List<User> pageList(@PageableDefault(size=2,sort="id",direction = Sort.Direction.DESC) Pageable pageable){
-		Page<User> pagingUsers = userReposity.findAll(pageable);
+		Page<User> pagingUsers = userRepository.findAll(pageable);
 		List<User> users = pagingUsers.getContent();
 		return users;
 	}
@@ -84,7 +84,7 @@ public class DummyControllerTest {
 		//그럼 return user 가 null이 되면 에러이기 때문에
 		//Optional 로 user를 감싸서 가져와서 null인지 아닌지 판단
 		
-		User user = userReposity.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {
+		User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {
 
 		@Override
 			public IllegalArgumentException get() {
@@ -111,7 +111,7 @@ public class DummyControllerTest {
 		System.out.println("email" + user.getEmail());
 		
 		user.setRole(RoleType.User);
-		userReposity.save(user);
+		userRepository.save(user);
 		return "회원가입완료";
 	}
 }
