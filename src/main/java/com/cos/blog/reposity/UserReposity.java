@@ -10,3 +10,6 @@ import com.cos.blog.model.User;
 public interface UserReposity extends JpaRepository<User, Integer>{
 
 }
+
+//JPA naming 전략
+//	User findByUsernameAndPassword(String username, String password);
