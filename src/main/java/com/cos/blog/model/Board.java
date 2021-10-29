@@ -47,7 +47,7 @@ public class Board {
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)//Mapper 관계의 주인이아님 Fk가 아니기 때문에 DB에 컬럼 필요없어요 
 	private List<Reply> reply;
 	
-	@ColumnDefault("0")
+//	@ColumnDefault("0")
 	private int count; //조회
 	
 	@CreationTimestamp
