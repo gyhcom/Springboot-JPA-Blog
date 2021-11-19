@@ -32,7 +32,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//프로젝트에 연결된 Db의 전략을 따라간다.
 	private int id; //시퀀스, auto_increamt
 	
-	@Column(unique = true,nullable = false, length=30 )
+	@Column(unique = true,nullable = false, length=100 )
 	private String username;
 	
 	@Column(nullable = false, length=100) // 해쉬(비밀번호암호화)
