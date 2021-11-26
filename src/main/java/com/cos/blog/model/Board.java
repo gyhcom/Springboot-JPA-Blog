@@ -3,6 +3,7 @@ package com.cos.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,9 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,8 +48,10 @@ public class Board {
 	@JoinColumn(name="userId")
 	private User user; //DB는 오브젝트를 저장할수 없음, 자바는 저장가
 	
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)//Mapper 관계의 주인이아님 Fk가 아니기 때문에 DB에 컬럼 필요없어요 
-	private List<Reply> reply;
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade =CascadeType.REMOVE)//Mapper 관계의 주인이아님 Fk가 아니기 때문에 DB에 컬럼 필요없어요 
+	@JsonIgnoreProperties({"board"})
+	@OrderBy("id desc")
+	private List<Reply> replys;
 	
 //	@ColumnDefault("0")
 	private int count; //조회

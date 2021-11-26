@@ -9,6 +9,9 @@ let index ={
 		$("#btn-update").on("click",()=>{ //function(){} , ()=>{} this를 바인딩하기 위해
 			this.update();
 		});
+		$("#btn-reply-save").on("click",()=>{ //function(){} , ()=>{} this를 바인딩하기 위해
+			this.replySave();
+		});
 	},
 	
 	save: function(){
@@ -72,6 +75,28 @@ let index ={
 	}).fail(function(error){
 		alert(JSON.stringify(error));
 	});
+	},
+	replySave: function(){
+	let data ={
+		content : $("#reply-content").val(),
+	}
+	let boardId = $("#boardId").val();
+	console.log(data);
+	
+	//ajax 호출시 default가 비동기 호
+	$.ajax({
+		type: "POST",
+		url: `/api/board/${boardId}/reply`,
+		data: JSON.stringify(data),
+		contentType:"application/json; charset=utf-8",
+		dataType:"json"
+	}).done(function(resp){
+		alert("댓글등록이 완료되었습니다.");
+		location.href=`/board/${boardId}`;
+	}).fail(function(error){
+		alert(JSON.stringify(error));
+	});
+	
 	}
 }
 

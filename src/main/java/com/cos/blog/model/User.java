@@ -37,7 +37,7 @@ public class User {
 	
 	@Column(nullable = false, length=100) // 해쉬(비밀번호암호화)
 	private String password;
-	
+	 
 	@Column(nullable = false, length=50)
 	private String email;
 	
@@ -45,6 +45,8 @@ public class User {
 	//@ColumnDefault("user")
 	@Enumerated(EnumType.STRING)
 	private RoleType role; //정확하게 하려면 Enum을 써야함 이걸 쓰면 어떤 데이터의 Domain을 생성할수 있다
+	
+	private String oauth;
 	
 	@CreationTimestamp //시간이 자동생
 	private Timestamp createDate;
