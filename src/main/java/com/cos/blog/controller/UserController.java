@@ -2,6 +2,7 @@ package com.cos.blog.controller;
 
 import java.util.UUID;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,9 +14,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /*인증이 안되어 있는 사용자들이 출입할수 있는 경로 추가
 그냥 주소가 / 이면 index.jsp 허용*/
+@Slf4j
 @Controller
 public class UserController {
 	@Value("${cos.key}")
@@ -47,8 +51,9 @@ public class UserController {
 		return "user/joinForm";
 	}
 	@GetMapping("/auth/loginForm")
-	public String loginForm() {
-		
+	public String loginForm(@RequestParam(value = "exception", required = false) String exception, Model model) {
+		model.addAttribute("exception", exception);
+		log.info("exception={}",exception);
 		return "user/loginForm";
 	}
 

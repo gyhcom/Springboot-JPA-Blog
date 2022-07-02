@@ -1,5 +1,6 @@
 package com.cos.blog.config;
 
+import com.cos.blog.config.auth.LoginFailHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,10 +50,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    .anyRequest().authenticated()
 	    .and()
 	    .formLogin().loginPage("/auth/loginForm")
-	    .loginProcessingUrl("/auth/loginProc") //스프링 시큐리티가 로그인을 가로챈다 해당주소로
+		.failureHandler(loginFailHandler())
+		.loginProcessingUrl("/auth/loginProc") //스프링 시큐리티가 로그인을 가로챈다 해당주소로
 	    .defaultSuccessUrl("/")
 		;
 
 	}
-	
+
+
+	@Bean
+	public LoginFailHandler loginFailHandler(){
+		return new LoginFailHandler();
+	}
 }
